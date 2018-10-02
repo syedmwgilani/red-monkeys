@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/syedmwgilani/red-monkeys#readme",
   "devDependencies": {
-    "electron": "3.0.2"
-  }
+    "devtron": "^1.4.0",
+    "electron": "3.0.2",
+    "electron-reload": "^1.2.5"
+  },
+  "dependencies": {}
 }

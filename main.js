@@ -5,6 +5,18 @@ const {app, BrowserWindow} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+
+console.log('process.argv: ', process.argv)
+//parse all argv for the letter d after a '-' or look for '--debug'
+const DEBUG = process.argv.find( x => /^-\w*d+\w*$|^--debug$/i.test(x) ) ? true : false
+//parse all argv for the letter f after a '-' or look for '--full'
+const FULLSCREEN = process.argv.find( x => /^-\w*f+\w*$|^--full$/i.test(x) ) ? true : false
+//parse all argv for the letter r after a '-' or look for '--reload'
+const RELOAD = process.argv.find( x => /^-\w*r+\w*$|^--reload$/i.test(x) ) ? true : false
+
+global.DEBUG = DEBUG
+
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
@@ -22,6 +34,24 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  // Launch fullscreen with DevTools open
+   // TO USE: electron . -f -d -r
+   // OR USE: electron . -fdr
+   console.log('DEBUG: ', DEBUG)
+   if (DEBUG) {
+      mainWindow.webContents.openDevTools()
+      require('devtron').install()
+   }
+   console.log('FULLSCREEN: ', FULLSCREEN)
+   if (FULLSCREEN) {
+      mainWindow.maximize()
+   }
+   console.log('RELOAD: ', RELOAD)
+   if (RELOAD) {
+      require('electron-reload')(__dirname)
+   }
+
 }
 
 // This method will be called when Electron has finished
